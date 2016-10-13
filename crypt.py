@@ -124,8 +124,9 @@ def letterListToIntList(contents):
 def decimalToString(contents):
     newString = ''
     for i in contents:
-        i = int(i)
-        newString += chr(i)
+        if i != '':
+            i = int(i)
+            newString += chr(i % 128)
     return newString
 
 # intListToIntLengthList Function
@@ -148,8 +149,11 @@ def cuttingList(contents):
         num = int(contentsList[count])
         subCount = 1
         while subCount < num + 1:
-            newString += contents[count + subCount]
-            subCount += 1
+            if count + subCount < contentsLength:
+                newString += contents[count + subCount]
+                subCount += 1
+            else:
+                return intList
         intList.append(newString)
         count = count + num + 1
     return intList
@@ -239,6 +243,8 @@ def binaryToDecimal(contents):
             newDecimalList += '8'
         elif i == '1001':
             newDecimalList += '9'
+        else:
+            newDecimalList += '0'
     return newDecimalList
 
 # pwToInt Function
