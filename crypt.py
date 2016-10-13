@@ -101,7 +101,6 @@ def pwToInt(PW):
 # return the string of Binary code for pw
 def pwIntToBinaryCode(PW):
     newBinaryPW = ""
-    print(list(PW))
     for i in list(PW):
         j = int(i)
         binary = ""
@@ -125,6 +124,7 @@ def crypting(contents, PW):
     for i in range(length):
         j = int(contents[i])
         count += j
+
 
 
 #Activating the main function
