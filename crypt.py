@@ -18,6 +18,15 @@ def main():
     textName = input("Enter the document name(.txt): ")
     userPW = input("Enter password: ")
     outputName = input("Enter the name of the result file: ")
+    isCrypt = input("Decode: 1, Incode: 0 : ")
+    if isCrypt == '0':
+        Incoding(textName, userPW, outputName)
+    else:
+        Decoding(textName, userPW, outputName)
+
+
+def Incoding(textName, userPW, outputName):
+    print("Incoding...")
     
     #Open the file and get string
     textContents = open(textName, "r")
@@ -40,7 +49,8 @@ def main():
     #Combine all element in the text
     text = listAllTogether(text)
 
-    print(text)
+    #Change to binary
+    text = numStringToThreeBinary(text)
     
     #Change pw to ASCII
     userPW = pwToInt(userPW)
@@ -48,7 +58,45 @@ def main():
     #Change pw to Binary
     userPW = pwIntToBinaryCode(userPW)
 
-    print(userPW)
+    #Crypting
+    cryptText = crypting(text, userPW)
+    
+    #Makeing new File
+    file = open(outputName, "w+")
+    file.write(cryptText)
+    file.close()
+    
+    print("Finished!")
+
+    
+def Decoding(textName, userPW, outputName):
+    print("Decoding...")
+    
+    #Change pw to ASCII
+    userPW = pwToInt(userPW)
+
+    #Change pw to Binary
+    userPW = pwIntToBinaryCode(userPW)
+    
+    #Open the file and get String
+    cryptText = open(textName, "r").read()
+
+    #Decrypting
+    decryptText = crypting(cryptText, userPW)
+    
+    #Change to decimal
+    text = binaryToDecimal(decryptText)
+
+    #Reverse the list
+    text = reverseList(text)
+
+    #Combine all element in the text
+    text = listAllTogether(text)
+
+    #Cutting the List
+    text = cuttingList(text)
+
+    print(text)
 
 # letterSplit Function
 # return letter list
@@ -71,6 +119,24 @@ def intListToIntLengthList(contents):
         intList.append(int(str(len(str(i))) + str(i)))
     return intList
 
+# cuttingList Function
+# return the pure information list
+def cuttingList(contents):
+    intList = []
+    count = 0
+    contentsList = list(contents)
+    contentsLength = len(contents)
+    while count < contentsLength:
+        newString = ''
+        num = int(contentsList[count])
+        subCount = 1
+        while subCount < num + 1:
+            newString += contents[count + subCount]
+            subCount += 1
+        intList.append(newString)
+        count = count + num + 1
+    return intList
+
 # listAllTogether Function
 # return the string conbine all list together
 def listAllTogether(contents):
@@ -88,6 +154,75 @@ def reverseList(contents):
     for i in range(length):
         newList.append(contents[length - 1 - int(i)])
     return newList
+
+# numStringToThreeBinary Function
+# return the list of String contains binary code
+def numStringToThreeBinary(contents):
+    newContents = ""
+    for i in list(contents):
+        num = int(i)
+        if num == 0:
+            newContents += '0000'
+        elif num == 1:
+            newContents += '0001'
+        elif num == 2:
+            newContents += '0010'
+        elif num == 3:
+            newContents += '0011'
+        elif num == 4:
+            newContents += '0100'
+        elif num == 5:
+            newContents += '0101'
+        elif num == 6:
+            newContents += '0110'
+        elif num == 7:
+            newContents += '0111'
+        elif num == 8:
+            newContents += '1000'
+        elif num == 9:
+            newContents += '1001'
+    return newContents
+
+# binaryToDecimal Function
+# return the list of decimal number from binary code
+def binaryToDecimal(contents):
+    newContents = ""
+    contentsLength = len(contents)
+    contentsList = list(contents)
+    count = 0
+    newNumList = []
+    newNum = ''
+    while count < contentsLength:
+        if count % 4 == 3:
+            newNum += contentsList[count]
+            newNumList.append(newNum)
+            newNum = ''
+        else:
+            newNum += contentsList[count]
+        count += 1
+    newDecimalList = ''
+    for i in newNumList:
+        if i == '0000':
+            newDecimalList += '0'
+        elif i == '0001':
+            newDecimalList += '1'
+        elif i == '0010':
+            newDecimalList += '2'
+        elif i == '0011':
+            newDecimalList += '3'
+        elif i == '0100':
+            newDecimalList += '4'
+        elif i == '0101':
+            newDecimalList += '5'
+        elif i == '0110':
+            newDecimalList += '6'
+        elif i == '0111':
+            newDecimalList += '7'
+        elif i == '1000':
+            newDecimalList += '8'
+        elif i == '1001':
+            newDecimalList += '9'
+    return newDecimalList
 
 # pwToInt Function
 # return the string integer cryptic of pw
@@ -117,15 +252,22 @@ def pwIntToBinaryCode(PW):
 # return crypted value
 def crypting(contents, PW):
     count = 0
-    newList = []
-    contents = list(contents)
-    PW = list(PW)
-    length = len(contents)
-    for i in range(length):
-        j = int(contents[i])
-        count += j
-
-
+    newList = ''
+    PWList = list(PW)
+    PWLength = len(PW)
+    contentsList = list(contents)
+    contentsLength = len(contents)
+    while count < contentsLength:
+        if (PWList[count % PWLength] == '1') and (contentsList[count] == '1'):
+            newList += '1'
+        elif (PWList[count % PWLength] == '1') and (contentsList[count] == '0'):
+            newList += '0'
+        elif (PWList[count % PWLength] == '0') and (contentsList[count] == '1'):
+            newList += '0'
+        elif (PWList[count % PWLength] == '0') and (contentsList[count] == '0'):
+            newList += '1'
+        count += 1
+    return newList
 
 #Activating the main function
 if __name__ == "__main__": main()
