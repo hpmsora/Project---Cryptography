@@ -6,6 +6,12 @@
 #
 # Cryptography Project
 #
+# Input the text file extentio with .txt and you can
+# choose whether decode and encode.
+# Also it should input password and if the password
+# is incorrect than the result text file will wield
+# result.
+#
 #---------------------------------------------------
 
 # Variable
