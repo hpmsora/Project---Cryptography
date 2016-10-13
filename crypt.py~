@@ -44,6 +44,8 @@ def main():
     
     #Change pw to ASCII
     userPW = pwToInt(userPW)
+    
+    print(userPW)
 
     #Change pw to Binary
     userPW = pwIntToBinaryCode(userPW)
@@ -113,18 +115,6 @@ def pwIntToBinaryCode(PW):
                 j = int(j / 2)
         newBinaryPW += binary
     return newBinaryPW
-
-# crypting Function
-# return crypted value
-def crypting(contents, PW):
-    count = 0
-    newList = []
-    contents = list(contents)
-    PW = list(PW)
-    length = len(contents)
-    for i in range(length):
-        j = int(contents[i])
-        count += j
 
 
 #Activating the main function
