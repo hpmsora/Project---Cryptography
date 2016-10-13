@@ -96,7 +96,15 @@ def Decoding(textName, userPW, outputName):
     #Cutting the List
     text = cuttingList(text)
 
-    print(text)
+    #Change decimal to string
+    text = decimalToString(text)
+
+    #Making new File
+    file = open(outputName, "w+")
+    file.write(text)
+    file.close()
+    
+    print("Finished!")
 
 # letterSplit Function
 # return letter list
@@ -110,6 +118,15 @@ def letterListToIntList(contents):
     for i in contents:
         intList.append(ord(i))
     return intList
+
+# decimalToString Function
+# return string value corresponding decimal
+def decimalToString(contents):
+    newString = ''
+    for i in contents:
+        i = int(i)
+        newString += chr(i)
+    return newString
 
 # intListToIntLengthList Function
 # return integer with length of its length
